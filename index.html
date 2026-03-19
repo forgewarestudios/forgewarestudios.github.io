@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>ForgeWare Studios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="ForgeWareStudios.ico" type="image/x-icon">
     <style>
         :root {
-            --bg: #0a1222;
+            --bg: #161922;
             --bg-soft: #12213c;
             --surface: rgba(18, 33, 60, 0.62);
             --surface-strong: #172b4e;
@@ -32,9 +33,9 @@
             font-family: "Avenir Next", "Segoe UI Variable", "Segoe UI", sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at 10% 10%, #1f3f79 0%, transparent 30%),
-                radial-gradient(circle at 85% 0%, #163467 0%, transparent 32%),
-                linear-gradient(165deg, #060d1a 0%, #0f1c34 46%, #071224 100%);
+                radial-gradient(circle at 10% 12%, rgba(54, 86, 145, 0.46) 0%, transparent 32%),
+                radial-gradient(circle at 85% 2%, rgba(33, 71, 132, 0.38) 0%, transparent 34%),
+                linear-gradient(165deg, #11141c 0%, #161922 46%, #10141e 100%);
             min-height: 100vh;
             line-height: 1.5;
         }
@@ -48,9 +49,10 @@
 
         .site-header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 24px 0;
+            padding: 34px 0 20px;
             gap: 24px;
         }
 
@@ -60,16 +62,17 @@
         }
 
         .brand img {
-            height: 56px;
-            width: auto;
+            width: min(760px, 90vw);
+            height: auto;
             display: block;
-            filter: drop-shadow(0 6px 14px rgba(6, 14, 28, 0.4));
+            filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.26));
         }
 
         .site-nav {
             display: flex;
             gap: 18px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .site-nav a {
@@ -97,12 +100,16 @@
             border: 1px solid var(--line);
             background: var(--surface);
             backdrop-filter: blur(3px);
-            border-radius: 18px;
+            border-radius: 10px;
             box-shadow: 0 24px 45px rgba(4, 10, 22, 0.34);
         }
 
         .hero-panel {
             padding: 34px 34px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
             animation: rise 0.75s ease forwards;
         }
 
@@ -125,11 +132,13 @@
             margin: 18px 0 0;
             color: #b8c8e6;
             max-width: 62ch;
+            text-align: center;
         }
 
         .hero-actions {
             margin-top: 26px;
             display: flex;
+            justify-content: center;
             gap: 12px;
             flex-wrap: wrap;
         }
@@ -163,6 +172,8 @@
             padding: 24px;
             display: grid;
             align-content: center;
+            justify-items: center;
+            text-align: center;
             gap: 14px;
             animation: rise 0.9s ease forwards;
         }
@@ -288,12 +299,11 @@
 
         @media (max-width: 620px) {
             .site-header {
-                flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
             }
 
             .brand img {
-                height: 48px;
+                width: min(92vw, 560px);
             }
 
             .metrics {
