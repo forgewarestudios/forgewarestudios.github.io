@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notebook | ForgeWare Studios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Notebook by ForgeWare Studios is a focused, private desktop note-taking app with a clean interface, direct download area, and Pro licensing path.">
+    <link rel="icon" href="ForgeWareStudios.ico" type="image/x-icon">
+    <style>
+        :root {
+            --bg: #161922;
+            --surface: rgba(18, 33, 60, 0.62);
+            --surface-strong: #172b4e;
+            --text: #e9f0ff;
+            --muted: #9db0d4;
+            --accent: #58a6ff;
+            --accent-strong: #2f7ddd;
+            --line: rgba(166, 191, 234, 0.24);
+            --max: 1120px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Avenir Next", "Segoe UI Variable", "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 10% 12%, rgba(54, 86, 145, 0.46) 0%, transparent 32%),
+                radial-gradient(circle at 85% 2%, rgba(33, 71, 132, 0.38) 0%, transparent 34%),
+                linear-gradient(165deg, #11141c 0%, #161922 46%, #10141e 100%);
+            min-height: 100vh;
+            line-height: 1.55;
+        }
+
+        .page {
+            width: min(100% - 32px, var(--max));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            padding: 34px 0 24px;
+        }
+
+        .brand img {
+            width: min(620px, 90vw);
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.26));
+        }
+
+        .site-nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .site-nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .site-nav a:hover,
+        .site-nav a:focus-visible {
+            color: var(--text);
+        }
+
+        .hero,
+        .grid-3,
+        .grid-2,
+        .faq-grid,
+        .screenshot-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero {
+            grid-template-columns: 1.15fr 0.85fr;
+            padding: 18px 0 12px;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .grid-2,
+        .faq-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .screenshot-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .panel,
+        .card,
+        .shot,
+        .price,
+        .faq,
+        .cta {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            backdrop-filter: blur(3px);
+            border-radius: 14px;
+            box-shadow: 0 24px 45px rgba(4, 10, 22, 0.34);
+            animation: rise 0.8s ease both;
+        }
+
+        .panel, .card, .price, .faq { padding: 24px; }
+
+        .eyebrow {
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.73rem;
+            color: #9ecbff;
+            margin: 0 0 12px;
+        }
+
+        h1, h2, h3 { margin: 0; line-height: 1.1; }
+
+        h1 { font-size: clamp(2.1rem, 4.8vw, 3.5rem); }
+
+        p {
+            margin: 0;
+            color: #bfd0ec;
+        }
+
+        .hero-copy p + p,
+        .section-intro p + p,
+        .summary p + p {
+            margin-top: 16px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 26px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: translateY(-1px);
+        }
+
+        .button.primary {
+            background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+            color: #031329;
+        }
+
+        .button.secondary {
+            border-color: var(--line);
+            color: var(--text);
+            background: rgba(88, 166, 255, 0.08);
+        }
+
+        .button.disabled {
+            pointer-events: none;
+            opacity: 0.72;
+        }
+
+        .pills {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .pill {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(9, 19, 35, 0.46);
+            padding: 12px 14px;
+        }
+
+        .pill strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .pill span {
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+
+        .summary {
+            display: grid;
+            gap: 12px;
+        }
+
+        .summary-block {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(8, 17, 31, 0.62);
+            padding: 16px;
+        }
+
+        section {
+            margin-top: 22px;
+        }
+
+        .section-intro {
+            max-width: 64ch;
+            margin-bottom: 14px;
+        }
+
+        .section-intro h2 {
+            font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0 0;
+            display: grid;
+            gap: 10px;
+            color: #d8e5fa;
+        }
+
+        li {
+            padding-left: 18px;
+            position: relative;
+        }
+
+        li::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--accent);
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+        }
+
+        .shot {
+            padding: 14px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .shot-frame {
+            min-height: 240px;
+            border-radius: 12px;
+            border: 1px solid rgba(166, 191, 234, 0.34);
+            overflow: hidden;
+            background: rgba(7, 14, 27, 0.7);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .shot-frame img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .shot strong,
+        .price strong,
+        .faq h3 {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        figcaption {
+            display: grid;
+            gap: 4px;
+        }
+
+        .featured {
+            background:
+                linear-gradient(160deg, rgba(88, 166, 255, 0.14), rgba(18, 33, 60, 0.62));
+            border-color: rgba(88, 166, 255, 0.42);
+        }
+
+        .price-tag {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 7px 12px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #d7e5fb;
+            font-size: 0.86rem;
+        }
+
+        .price-value {
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin: 14px 0 8px;
+        }
+
+        .cta {
+            margin: 24px 0 30px;
+            padding: 26px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background:
+                linear-gradient(130deg, rgba(88, 166, 255, 0.18), rgba(16, 37, 68, 0.65));
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 0.92rem;
+            padding: 18px 0 32px;
+            text-align: center;
+        }
+
+        @keyframes rise {
+            from { transform: translateY(14px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 980px) {
+            .hero, .grid-3, .grid-2, .faq-grid, .screenshot-grid { grid-template-columns: 1fr; }
+            .cta { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 620px) {
+            .brand img { width: min(92vw, 500px); }
+            .panel, .card, .price, .faq, .cta { padding: 20px; }
+            .pills { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header class="site-header">
+            <a class="brand" href="index.html" aria-label="ForgeWare Studios home">
+                <img src="ForgeWareStudiosLogo.png" alt="ForgeWare Studios logo">
+            </a>
+            <nav class="site-nav" aria-label="Notebook navigation">
+                <a href="index.html">Home</a>
+                <a href="#overview">Overview</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="#download">Download</a>
+                <a href="#pro">Notebook Pro</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero" id="overview">
+                <article class="panel hero-copy">
+                    <p class="eyebrow">ForgeWare Studios Product</p>
+                    <h1>Notebook is built for fast writing, focused thinking, and private local work.</h1>
+                    <p>Notebook keeps the interface quiet so notes, drafts, and work sessions stay front and center. The page is ready for product information, screenshots, a download link, and a Pro upgrade path.</p>
+                    <div class="actions">
+                        <a class="button primary" href="#download">Download Notebook</a>
+                        <a class="button secondary" href="#pro">Buy Notebook Pro</a>
+                    </div>
+                    <div class="pills">
+                        <div class="pill"><strong>Focused</strong><span>Minimal interface with space to write</span></div>
+                        <div class="pill"><strong>Private</strong><span>Local-first product story with no tracking</span></div>
+                        <div class="pill"><strong>Flexible</strong><span>Ready for free and Pro edition messaging</span></div>
+                    </div>
+                </article>
+
+                <aside class="panel summary">
+                    <div class="summary-block">
+                        <strong>Notebook at a glance</strong>
+                        <p>A lightweight desktop writing app for notes, drafts, quick captures, and longer focused sessions.</p>
+                    </div>
+                    <div class="summary-block">
+                        <strong>Launch-ready layout</strong>
+                        <p>This page already makes room for direct downloads, screenshot placement, and a future provider-backed checkout button.</p>
+                    </div>
+                    <div class="summary-block">
+                        <strong>Next integration point</strong>
+                        <p>Replace the placeholder download action and connect the Pro button to your licensing flow when you are ready.</p>
+                    </div>
+                </aside>
+            </section>
+
+            <section>
+                <div class="section-intro">
+                    <p class="eyebrow">Why Notebook</p>
+                    <h2>Designed to feel calm, responsive, and dependable.</h2>
+                    <p>These sections give the site a professional product narrative now, while leaving the exact Pro feature list and key delivery behavior easy to refine later.</p>
+                </div>
+                <div class="grid-3">
+                    <article class="card">
+                        <h3>Clean by Default</h3>
+                        <p>Notebook prioritizes readable content and simple controls so the app feels approachable for both quick notes and longer writing sessions.</p>
+                        <ul>
+                            <li>Readable typography and clear spacing</li>
+                            <li>Low-friction workflow for everyday use</li>
+                            <li>Professional presentation for business users</li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Private Local Workflow</h3>
+                        <p>The page positions Notebook as a privacy-first tool with local ownership rather than a cloud-dependent subscription product.</p>
+                        <ul>
+                            <li>No tracking language on the page</li>
+                            <li>Trust-centered product messaging</li>
+                            <li>Easy fit for offline-friendly licensing later</li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Ready for Growth</h3>
+                        <p>The structure already supports screenshots, installer delivery, a Pro upsell, and customer-facing licensing guidance.</p>
+                        <ul>
+                            <li>Dedicated download section</li>
+                            <li>Clear Pro edition positioning</li>
+                            <li>FAQ space for activation and license notes</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section id="screenshots">
+                <div class="section-intro">
+                    <p class="eyebrow">Screenshots</p>
+                    <h2>A clear look at Notebook's core workspace, tools, and configuration.</h2>
+                    <p>These release screenshots show the editor experience, integrated hex editing, active tools, and the settings window so visitors can quickly understand the depth and polish of the application.</p>
+                </div>
+                <div class="screenshot-grid">
+                    <figure class="shot">
+                        <div class="shot-frame">
+                            <img src="assets/images/notebook/notebook-editor.png" alt="Notebook main editor window showing the core writing workspace.">
+                        </div>
+                        <figcaption>
+                            <strong>Core editor at a glance</strong>
+                            <p>The primary Notebook workspace presents writing, editing, and document structure in a clean layout built for fast, focused work.</p>
+                        </figcaption>
+                    </figure>
+                    <figure class="shot">
+                        <div class="shot-frame">
+                            <img src="assets/images/notebook/notebook-hex.png" alt="Notebook hex editor view.">
+                        </div>
+                        <figcaption>
+                            <strong>Integrated hex editor</strong>
+                            <p>The hex editor view extends Notebook beyond plain text, giving advanced users a capable environment for low-level inspection and editing.</p>
+                        </figcaption>
+                    </figure>
+                    <figure class="shot">
+                        <div class="shot-frame">
+                            <img src="assets/images/notebook/notebook-tools.png" alt="Notebook window with several tools active.">
+                        </div>
+                        <figcaption>
+                            <strong>Tools in action</strong>
+                            <p>This view highlights part of Notebook's active toolset, showing how the application supports practical workflows without sacrificing clarity.</p>
+                        </figcaption>
+                    </figure>
+                    <figure class="shot">
+                        <div class="shot-frame">
+                            <img src="assets/images/notebook/notebook-settings.png" alt="Notebook settings window.">
+                        </div>
+                        <figcaption>
+                            <strong>Settings and configuration</strong>
+                            <p>The settings window gives users direct access to application preferences in a straightforward interface that stays consistent with the rest of Notebook.</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            </section>
+
+            <section id="download">
+                <div class="section-intro">
+                    <p class="eyebrow">Download And Purchase</p>
+                    <h2>Make the free app clear and the Pro upgrade easy to understand.</h2>
+                    <p>This first pass keeps the page honest: the visual structure is live now, while the installer URL and license fulfillment can be connected when those details are finalized.</p>
+                </div>
+                <div class="grid-2">
+                    <article class="price">
+                        <strong>Notebook</strong>
+                        <p>The standard edition for individual notes, drafts, and everyday writing sessions.</p>
+                        <div class="price-value">Free</div>
+                        <div class="price-tag">Direct installer link goes here</div>
+                        <ul>
+                            <li>Core writing and note-taking workflow</li>
+                            <li>Simple local-first user experience</li>
+                            <li>Clear entry point for first-time visitors</li>
+                        </ul>
+                        <div class="actions">
+                            <a class="button primary disabled" href="#" aria-disabled="true">Installer URL Pending</a>
+                        </div>
+                    </article>
+                    <article class="price featured" id="pro">
+                        <strong>Notebook Pro</strong>
+                        <p>The paid edition for customers who want the upgraded feature set and a professional license-managed purchase flow.</p>
+                        <div class="price-value">One-Time License</div>
+                        <div class="price-tag">Checkout and key delivery connect here next</div>
+                        <ul>
+                            <li>Dedicated Pro positioning on the product page</li>
+                            <li>Space for a provider-backed checkout button</li>
+                            <li>Expectation that customers receive a license key after purchase</li>
+                        </ul>
+                        <div class="actions">
+                            <a class="button secondary" href="#faq">See Pro Licensing Notes</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="faq">
+                <div class="section-intro">
+                    <p class="eyebrow">FAQ</p>
+                    <h2>Set expectations now and tighten the details later.</h2>
+                    <p>These answers are intentionally high level until you share the Notebook project's licensing write-up.</p>
+                </div>
+                <div class="faq-grid">
+                    <article class="faq">
+                        <h3>How will Notebook Pro be purchased?</h3>
+                        <p>The page is structured for a one-time purchase flow. The next step is connecting the Pro call-to-action to a checkout provider and automated fulfillment.</p>
+                    </article>
+                    <article class="faq">
+                        <h3>How will customers receive a license key?</h3>
+                        <p>The intended flow is purchase completion, generated key delivery, and Pro activation inside the app using that key.</p>
+                    </article>
+                    <article class="faq">
+                        <h3>Can the app stay privacy-focused?</h3>
+                        <p>Yes. We can keep the product local-first and still issue licenses by using lightweight purchase verification and key generation.</p>
+                    </article>
+                    <article class="faq">
+                        <h3>What should happen next?</h3>
+                        <p>Replace the installer placeholder with a real download URL and use the Notebook licensing context to connect the buy flow and key delivery.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="cta">
+                <div>
+                    <h2>Notebook now has a dedicated product page.</h2>
+                    <p>The front-end structure is in place. Once you share the licensing write-up, we can choose a checkout path and wire in automated Pro key fulfillment.</p>
+                </div>
+                <div class="actions">
+                    <a class="button primary" href="#download">Review Download Area</a>
+                    <a class="button secondary" href="index.html">Back To ForgeWare Studios</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            &copy; 2026 ForgeWare Studios. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>
